@@ -1,9 +1,12 @@
 package praktikum;
 
+import lombok.ToString;
+
 /**
  * Модель булочки для бургера.
  * Булочке можно дать название и назначить цену.
  */
+@ToString(includeFieldNames = false)
 public class Bun {
 
     public String name;

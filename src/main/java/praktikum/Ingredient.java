@@ -1,10 +1,13 @@
 package praktikum;
 
+import lombok.ToString;
+
 /**
  * Модель ингредиента.
  * Ингредиент: начинка или соус.
  * У ингредиента есть тип (начинка или соус), название и цена.
  */
+@ToString(includeFieldNames = false)
 public class Ingredient {
 
     public IngredientType type;
