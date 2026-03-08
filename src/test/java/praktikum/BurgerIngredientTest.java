@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -16,7 +16,8 @@ public class BurgerIngredientTest {
 
     public BurgerIngredientTest(IngredientType ingredientType) {
         burger = new Burger();
-        ingredient = new Ingredient(ingredientType, "Секретный ингрeдиент", 25f);
+        ingredient = Mockito.mock(Ingredient.class);
+        Mockito.when(ingredient.getType()).thenReturn(ingredientType);
     }
 
     @Parameterized.Parameters(name = "{0}")
@@ -45,12 +46,12 @@ public class BurgerIngredientTest {
 
     @Test
     public void addTwoIngredients() {
-        Ingredient ingredient2 = new Ingredient(IngredientType.FILLING, "Второй ингрeдиент", 10f);
+        Ingredient another = Mockito.mock(Ingredient.class);
         burger.addIngredient(ingredient);
-        burger.addIngredient(ingredient2);
+        burger.addIngredient(another);
 
         Assertions.assertThat(burger.ingredients)
                 .withFailMessage("Не удалось добавить ингрeдиенты")
-                .containsExactly(ingredient, ingredient2);
+                .containsExactly(ingredient, another);
     }
 }

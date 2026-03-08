@@ -3,49 +3,44 @@ package praktikum;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class BurgetMultipleIngridientsTest {
     private final Burger burger;
-    private final Ingredient ingredient1;
-    private final Ingredient ingredient2;
-    private final Ingredient ingredient3;
-    private final List<Ingredient> initialIngridients;
+    private final Ingredient firstIngredient;
+    private final Ingredient ingredientInTheMiddle;
+    private final Ingredient lastIngredient;
 
     public BurgetMultipleIngridientsTest() {
         burger = new Burger();
 
-        ingredient1 = new Ingredient(IngredientType.FILLING, "Пиявка сушёная", 25f);
-        ingredient2 = new Ingredient(IngredientType.FILLING, "Тина болотная", 5f);
-        ingredient3 = new Ingredient(IngredientType.SAUCE, "Жабья кровь", 10f);
+        firstIngredient = MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Пиявка сушёная", 25f);
+        ingredientInTheMiddle = MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Тина болотная", 5f);
+        lastIngredient = MockBurgerUtils.mockIngredient(IngredientType.SAUCE, "Жабья кровь", 10f);
 
-        burger.addIngredient(ingredient1);
-        burger.addIngredient(ingredient2);
-        burger.addIngredient(ingredient3);
-
-        initialIngridients = Arrays.asList(ingredient1, ingredient2, ingredient3);
+        burger.addIngredient(firstIngredient);
+        burger.addIngredient(ingredientInTheMiddle);
+        burger.addIngredient(lastIngredient);
     }
+
 
     @Test
     public void removeFirstIngridient() {
         burger.removeIngredient(0);
 
-        Assertions.assertThat(burger.ingredients).containsExactly(ingredient2, ingredient3);
+        Assertions.assertThat(burger.ingredients).containsExactly(ingredientInTheMiddle, lastIngredient);
     }
 
     @Test
     public void removeIngridientInTheMiddle() {
         burger.removeIngredient(1);
 
-        Assertions.assertThat(burger.ingredients).containsExactly(ingredient1, ingredient3);
+        Assertions.assertThat(burger.ingredients).containsExactly(firstIngredient, lastIngredient);
     }
 
     @Test
     public void removeLastIngridient() {
         burger.removeIngredient(2);
 
-        Assertions.assertThat(burger.ingredients).containsExactly(ingredient1, ingredient2);
+        Assertions.assertThat(burger.ingredients).containsExactly(firstIngredient, ingredientInTheMiddle);
     }
 
     @Test
@@ -66,7 +61,7 @@ public class BurgetMultipleIngridientsTest {
     public void moveFirstIngridient() {
         burger.moveIngredient(0, 1);
 
-        Assertions.assertThat(burger.ingredients).containsExactly(ingredient2, ingredient1, ingredient3);
+        Assertions.assertThat(burger.ingredients).containsExactly(ingredientInTheMiddle, firstIngredient, lastIngredient);
     }
 
     @Test

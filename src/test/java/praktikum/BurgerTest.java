@@ -3,9 +3,9 @@ package praktikum;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class BurgerTest {
-    public static final Bun BUN = new Bun("Булочка с кунжутом", 20f);
 
     private Burger burger;
 
@@ -16,9 +16,11 @@ public class BurgerTest {
 
     @Test
     public void setBuns() {
-        burger.setBuns(BUN);
+        Bun bun = Mockito.mock(Bun.class);
 
-        Assert.assertEquals("Не получилось установить булочку", BUN, burger.bun);
+        burger.setBuns(bun);
+
+        Assert.assertEquals("Не получилось установить булочку", bun, burger.bun);
     }
 
     @Test
@@ -26,7 +28,7 @@ public class BurgerTest {
         Assert.assertThrows(
                 "Бургер без булочек не считается бургером",
                 NullPointerException.class,
-                () ->  burger.getPrice()
+                () -> burger.getPrice()
         );
     }
 
@@ -35,7 +37,7 @@ public class BurgerTest {
         Assert.assertThrows(
                 "Бургер без булочек не считается бургером",
                 NullPointerException.class,
-                () ->  burger.getReceipt()
+                () -> burger.getReceipt()
         );
     }
 }

@@ -12,7 +12,6 @@ import java.util.Collections;
 @RunWith(Parameterized.class)
 public class BurgerPriceAndReciptTest {
     private static final float DELTA = 0.0001f;
-    public static final Bun BUN = new Bun("Булочка с кунжутом", 20f);
 
     private final Burger burger = new Burger();
     private final float price;
@@ -33,24 +32,24 @@ public class BurgerPriceAndReciptTest {
     }
 
 
-    @Parameterized.Parameters(name = "{0} {1}")
+    @Parameterized.Parameters(name = "{2} {3}")
     public static Collection<Object[]> data() {
         return Arrays.asList(
                 new Object[]{
-                        BUN,
+                        MockBurgerUtils.mockBun(),
                         Collections.emptyList(),
                         40f,
                         "(==== Булочка с кунжутом ====)\n(==== Булочка с кунжутом ====)\n\nPrice: 40,000000\n"
                 },
                 new Object[]{
-                        BUN,
+                        MockBurgerUtils.mockBun(),
                         Arrays.asList(
-                                new Ingredient(IngredientType.FILLING, "Котлета", 100f),
-                                new Ingredient(IngredientType.FILLING, "Сыр", 30f),
-                                new Ingredient(IngredientType.FILLING, "Маринованный огурец", 10f),
-                                new Ingredient(IngredientType.FILLING, "Томат", 20f),
-                                new Ingredient(IngredientType.SAUCE, "Кетчуп", 5f),
-                                new Ingredient(IngredientType.SAUCE, "Майонез", 5f)
+                                MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Котлета", 100f),
+                                MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Сыр", 30f),
+                                MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Маринованный огурец", 10f),
+                                MockBurgerUtils.mockIngredient(IngredientType.FILLING, "Томат", 20f),
+                                MockBurgerUtils.mockIngredient(IngredientType.SAUCE, "Кетчуп", 5f),
+                                MockBurgerUtils.mockIngredient(IngredientType.SAUCE, "Майонез", 5f)
                         ),
                         210f,
                         "(==== Булочка с кунжутом ====)\n= filling Котлета =\n= filling Сыр =\n= filling Маринованный огурец =\n= filling Томат =\n= sauce Кетчуп =\n= sauce Майонез =\n(==== Булочка с кунжутом ====)\n\nPrice: 210,000000\n"
@@ -59,8 +58,7 @@ public class BurgerPriceAndReciptTest {
     }
 
     @Test
-    public void getPriceOfBunOnlyBurger() {
-        burger.setBuns(BUN);
+    public void getPrice() {
         Assert.assertEquals(
                 price,
                 burger.getPrice(),
@@ -70,8 +68,7 @@ public class BurgerPriceAndReciptTest {
 
 
     @Test
-    public void getReceiptOfBunOnlyBurger() {
-        burger.setBuns(BUN);
+    public void getReceipt() {
         Assert.assertEquals(
                 receipt,
                 burger.getReceipt()

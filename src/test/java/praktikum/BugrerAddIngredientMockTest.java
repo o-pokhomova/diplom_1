@@ -10,9 +10,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class BugrerAddIngredientMockTest {
-    public static final Ingredient INGREDIENT = new Ingredient(IngredientType.FILLING, "Секретный ингрeдиент", 25f);
     private Burger burger;
     private List<Ingredient> ingredients;
+    public final Ingredient ingredient = MockBurgerUtils.mockIngredient(
+            IngredientType.FILLING,
+            "Секретный ингрeдиент",
+            25f
+    );
 
     @Before
     public void setUp() {
@@ -23,15 +27,26 @@ public class BugrerAddIngredientMockTest {
 
     @Test
     public void addIngredient() {
-        burger.addIngredient(INGREDIENT);
-        verify(ingredients).add(eq(INGREDIENT));
+        burger.addIngredient(ingredient);
+        verify(ingredients).add(eq(ingredient));
     }
 
     @Test
-    public void addIngredientFailed() {
-        when(ingredients.add(eq(INGREDIENT))).thenThrow(IllegalStateException.class);
+    public void addIngredientFailedThrowsException() {
+        when(ingredients.add(eq(ingredient))).thenThrow(IllegalStateException.class);
 
-        Assert.assertThrows(IllegalStateException.class, () -> burger.addIngredient(INGREDIENT));
-        verify(ingredients).add(eq(INGREDIENT));
+        Assert.assertThrows(IllegalStateException.class, () -> burger.addIngredient(ingredient));
+    }
+
+    @Test
+    public void addIngredientFailedVerifyAdd() {
+        when(ingredients.add(eq(ingredient))).thenThrow(IllegalStateException.class);
+
+        try {
+            burger.addIngredient(ingredient);
+        } catch (Exception e) {
+            // Ничего не делаем, ожидаем проверку моков
+        }
+        verify(ingredients).add(eq(ingredient));
     }
 }
